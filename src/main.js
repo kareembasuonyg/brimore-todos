@@ -1,17 +1,17 @@
 import { createApp } from 'vue';
-import { createStore } from 'vuex';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
-import store from './store/index';
+import vuexStore from './store/index';
+import httpConfig from './core/http';
 
-// creating store
-const vuexStore = createStore(store);
 // app
 const app = createApp(App);
 // use
 app.use(vuexStore);
 app.use(Antd);
+// pass store to http module
+httpConfig(vuexStore);
 // mount the app
 app.mount('#app');

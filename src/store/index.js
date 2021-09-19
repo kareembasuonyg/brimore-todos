@@ -1,11 +1,39 @@
-import todoStore from './todoStore';
+import { createStore } from 'vuex';
 
-export default {
+import todoStore from './todoStore/index';
+
+const config = {
   modules: {
     todoStore,
   },
-  state: () => {},
-  mutations: {},
-  actions: {},
-  getters: {},
+  state: () => ({
+    loading: false,
+    error: null,
+  }),
+  mutations: {
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
+    setError(state, payload) {
+      state.error = payload;
+    },
+  },
+  actions: {
+    setLoading({ commit }, payload) {
+      commit('setLoading', payload);
+    },
+    setError({ commit }, payload) {
+      commit('setError', payload);
+    },
+  },
+  getters: {
+    loading(state) {
+      return state.loading;
+    },
+    error(state) {
+      return state.error;
+    },
+  },
 };
+const vuexStore = createStore(config);
+export default vuexStore;

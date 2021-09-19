@@ -1,4 +1,4 @@
-import http from './http';
+import { http } from './http';
 
 // global url
 const url = 'https://jsonplaceholder.typicode.com';
@@ -17,7 +17,7 @@ const getTodoById = async (id) => {
   const todos = await http('get', props);
   return todos.data;
 };
-const creatTodo = async (data) => {
+const createTodo = async (data) => {
   const props = {
     url: `${url}/todos`,
     data: JSON.stringify(data),
@@ -25,7 +25,7 @@ const creatTodo = async (data) => {
   const todos = await http('post', props);
   return todos.data;
 };
-const updateTodo = async (id, data) => {
+const updateTodoById = async (id, data) => {
   const props = {
     url: `${url}/todos/${id}`,
     data: JSON.stringify(data),
@@ -33,7 +33,7 @@ const updateTodo = async (id, data) => {
   const todos = await http('put', props);
   return todos.data;
 };
-const deleteTodo = async (id) => {
+const deleteTodoById = async (id) => {
   const props = {
     url: `${url}/todos/${id}`,
   };
@@ -45,7 +45,7 @@ const deleteTodo = async (id) => {
 export default {
   getAllTodos,
   getTodoById,
-  creatTodo,
-  updateTodo,
-  deleteTodo,
+  createTodo,
+  updateTodoById,
+  deleteTodoById,
 };

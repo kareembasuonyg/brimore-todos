@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export default async (method, props) => {
+let store;
+export default (vuexStore) => {
+  store = vuexStore;
+};
+const httpMethodsSwitch = async (method, props) => {
   let result;
   switch (method) {
     case 'get':
@@ -21,4 +25,15 @@ export default async (method, props) => {
     default:
       return result;
   }
+};
+export const http = async (method, props) => {
+  let result;
+  store.dispatch('setLoading', true);
+  try {
+    result = await httpMethodsSwitch(method, props);
+  } catch (err) {
+    store.dispatch('setError', err);
+  }
+  store.dispatch('setLoading', false);
+  return result;
 };
