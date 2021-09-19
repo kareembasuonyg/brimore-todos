@@ -17,28 +17,12 @@
             >Done</a-button
           >
           <!-- dropdown -->
-          <a-dropdown>
-            <a-button type="primary" class="ant-dropdown-link" @click.prevent
-              >More</a-button
-            >
-            <template #overlay>
-              <a-menu>
-                <a-menu-item>
-                  <a-button type="link" @click="openUpdateModal"
-                    >Update</a-button
-                  >
-                </a-menu-item>
-                <a-menu-item>
-                  <a-button type="link" danger @click="openDeleteModal"
-                    >Delete</a-button
-                  >
-                </a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
-        </template>
-      </a-card></a-col
-    >
+          <dropdown
+            :openDeleteModal="openDeleteModal"
+            :openUpdateModal="openUpdateModal"
+          ></dropdown>
+        </template> </a-card
+    ></a-col>
   </a-row>
   <!-- delete modal -->
   <a-modal
@@ -64,7 +48,13 @@
 <script>
 import { mapActions } from 'vuex';
 
+import Dropdown from './Dropdown.vue';
+
 export default {
+  components: {
+    Dropdown,
+  },
+  name: 'TodoCard',
   props: {
     title: String,
     id: Number,
