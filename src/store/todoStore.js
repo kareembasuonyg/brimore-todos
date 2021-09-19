@@ -11,11 +11,15 @@ export default {
     },
   },
   actions: {
-    getAllTodos({ commit }) {
-      const todos = todoAPI.getAllTodos();
-      console.log('🚀 ~ file: todoStore.js ~ line 15 ~ getAllTodos ~ todos', todos);
-      commit('allTodos', []);
+    async getAllTodos({ commit }) {
+      const todos = await todoAPI.getAllTodos();
+      console.log('🚀 ~ file: todoStore.js ~ line 15 ~', todos);
+      commit('allTodos', todos);
     },
   },
-  getters: {},
+  getters: {
+    allTodos(state) {
+      return state.todos;
+    },
+  },
 };
