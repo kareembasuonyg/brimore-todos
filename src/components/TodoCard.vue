@@ -1,58 +1,73 @@
 <template>
-  <a-row>
-    <a-col :span="12" class="card-col"
-      ><a-card
+  <Row>
+    <Col :span="12" class="card-col"
+      ><Card
         :title="title"
         class="card"
         :bodyStyle="{ height: 0, padding: 0 }"
         :style="{ borderLeftColor: completed ? 'green' : 'red' }"
+        data-test="todo-card"
       >
         <template #extra>
           <!-- done button -->
-          <a-button
+          <Button
             type="primary"
             class="complete-button"
             @click="completeTodo"
             v-if="!completed"
-            >Done</a-button
+            data-test="complete-todo"
+            >Done</Button
           >
           <!-- dropdown -->
-          <dropdown
+          <dropdown-button
             :openDeleteModal="openDeleteModal"
             :openUpdateModal="openUpdateModal"
-          ></dropdown>
-        </template> </a-card
-    ></a-col>
-  </a-row>
+          ></dropdown-button>
+        </template> </Card
+    ></Col>
+  </Row>
   <!-- delete modal -->
-  <a-modal
+  <Modal
     v-model:visible="deleteVisible"
     title="Are you sure?"
-    okText="Delete"
-    okType="danger"
-    @ok="deleteTodoById(id)"
+    data-test="delete-todo"
   >
     <p>You are going to delete this Todo!</p>
-  </a-modal>
+
+    <template #footer>
+      <Button danger data-test="delete-todo" @click="deleteTodoById(id)"
+        >Delete</Button
+      >
+    </template>
+  </Modal>
   <!-- upddate modal -->
-  <a-modal
-    v-model:visible="updateVisible"
-    title="Update todo"
-    okText="Save"
-    @ok="updateTodo"
-  >
-    <a-input v-model:value="updateValue" placeholder="Title" />
-  </a-modal>
+  <Modal v-model:visible="updateVisible" title="Update todo">
+    <template #footer>
+      <Button data-test="update-todo" @click="updateTodo" type="primary" ghost
+        >Save</Button
+      >
+    </template>
+    <Input v-model:value="updateValue" placeholder="Title" />
+  </Modal>
 </template>
 
 <script>
+/* eslint-disable */
 import { mapActions } from 'vuex';
-
-import Dropdown from './Dropdown.vue';
+import { Button, Row, Col, Modal, Input, Card, Menu } from 'ant-design-vue';
+import DropdownButton from './DropdownButton.vue';
 
 export default {
   components: {
-    Dropdown,
+    Button,
+    Row,
+    Col,
+    Modal,
+    Input,
+    Card,
+    Menu,
+    MenuItem: Menu.Item,
+    DropdownButton,
   },
   name: 'TodoCard',
   props: {

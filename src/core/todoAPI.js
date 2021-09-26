@@ -7,38 +7,58 @@ const getAllTodos = async () => {
   const props = {
     url: `${url}/todos`,
   };
-  const todos = await http('get', props);
-  return todos.data;
+  try {
+    const todos = await http('get', props);
+    return todos.data;
+  } catch (e) {
+    return null;
+  }
 };
 const getTodoById = async (id) => {
   const props = {
     url: `${url}/todos/${id}`,
   };
-  const todos = await http('get', props);
-  return todos.data;
+  try {
+    const todos = await http('get', props);
+    return todos.data;
+  } catch (e) {
+    return null;
+  }
 };
 const createTodo = async (data) => {
   const props = {
     url: `${url}/todos`,
     data: JSON.stringify(data),
   };
-  const todos = await http('post', props);
-  return todos.data;
+  try {
+    const todos = await http('post', props);
+    return todos.data;
+  } catch (e) {
+    return null;
+  }
 };
 const updateTodoById = async (id, data) => {
   const props = {
     url: `${url}/todos/${id}`,
     data: JSON.stringify(data),
   };
-  const todos = await http('put', props);
-  return todos.data;
+  try {
+    const todos = await http('put', props);
+    return todos.data;
+  } catch (e) {
+    return null;
+  }
 };
 const deleteTodoById = async (id) => {
   const props = {
     url: `${url}/todos/${id}`,
   };
-  const todos = await http('delete', props);
-  return todos.data;
+  try {
+    const todos = await http('delete', props);
+    return todos.data;
+  } catch (e) {
+    return null;
+  }
 };
 
 // export

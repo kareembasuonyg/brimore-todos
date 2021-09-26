@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
@@ -10,7 +9,7 @@ import httpConfig from './core/http';
 const app = createApp(App);
 // use
 app.use(vuexStore);
-app.use(Antd);
+
 // pass store to http module
 httpConfig(vuexStore);
 // mount the app

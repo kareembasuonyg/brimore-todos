@@ -31,9 +31,12 @@ export const http = async (method, props) => {
   store.dispatch('setLoading', true);
   try {
     result = await httpMethodsSwitch(method, props);
+    store.dispatch('setLoading', false);
+    return result;
   } catch (err) {
     store.dispatch('setError', err);
+    store.dispatch('setLoading', false);
+    console.log('🚀 ~ file: http.js ~ line 35 ~ http ~ err', err);
+    throw err;
   }
-  store.dispatch('setLoading', false);
-  return result;
 };

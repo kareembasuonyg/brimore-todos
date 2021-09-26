@@ -1,25 +1,25 @@
 <template>
   <div v-if="!error">
-    <a-row type="flex" justify="center">
-      <a-col :span="12" class="button-container-col">
+    <Row type="flex" justify="center">
+      <Col :span="12" class="button-container-col">
         <div
           class="button-container"
           :style="{
             textAlign: allTodos.length <= 0 || !allTodos ? 'center' : 'left',
           }"
         >
-          <a-button type="primary" @click="openAddModal">Add todo</a-button>
+          <Button type="primary" @click="openAddModal">Add todo</Button>
         </div>
-      </a-col>
+      </Col>
       <!-- in case no items in the array -->
-      <a-col :span="24" v-if="allTodos.length <= 0 || !allTodos">
+      <Col :span="24" v-if="allTodos.length <= 0 || !allTodos">
         <div>
-          <a-typography-title :level="5" class="text-center"
-            >No Todos yet add one</a-typography-title
+          <TypographyTitle :level="5" class="text-center"
+            >No Todos yet add one</TypographyTitle
           >
         </div>
-      </a-col>
-    </a-row>
+      </Col>
+    </Row>
     <todo-card
       v-for="item in allTodos"
       :key="item.id"
@@ -29,32 +29,42 @@
     ></todo-card>
 
     <!-- add todo modal -->
-    <a-modal
+    <Modal
       v-model:visible="visible"
       title="Add todo"
       okText="Save"
       @ok="addTodo"
     >
-      <a-input v-model:value="title" placeholder="Title" />
-    </a-modal>
+      <Input v-model:value="title" placeholder="Title" />
+    </Modal>
     <!-- loading -->
-    <a-spin v-if="loading" class="loader" />
+    <Spin v-if="loading" class="loader" />
   </div>
   <!-- in case error -->
   <div v-else>
     <div class="error-container">
       <div class="text-center">
-        <a-typography-title type="danger" :level="5">
+        <TypographyTitle type="danger" :level="5">
           {{ error.message }}
-        </a-typography-title>
-        <a-button type="primary" @click="reload">Try again</a-button>
+        </TypographyTitle>
+        <Button type="primary" @click="reload">Try again</Button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import { mapActions, mapGetters } from 'vuex';
+import {
+  Button,
+  Row,
+  Col,
+  Modal,
+  Input,
+  Spin,
+  Typography,
+} from 'ant-design-vue';
 import TodoCard from './components/TodoCard.vue';
 
 export default {
@@ -67,10 +77,17 @@ export default {
   },
   components: {
     TodoCard,
+    Button,
+    Row,
+    Col,
+    Modal,
+    Input,
+    Spin,
+    TypographyTitle: Typography.Title,
   },
 
-  mounted() {
-    this.getAllTodos();
+  async mounted() {
+    await this.getAllTodos();
   },
   methods: {
     ...mapActions('todoStore', ['getAllTodos', 'createTodo']),
