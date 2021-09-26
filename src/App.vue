@@ -5,14 +5,22 @@
         <div
           class="button-container"
           :style="{
-            textAlign: allTodos.length <= 0 || !allTodos ? 'center' : 'left',
+            textAlign:
+              allTodos.length <= 0 || !allTodos
+                ? 'center'
+                : 'left',
           }"
         >
-          <Button type="primary" @click="openAddModal">Add todo</Button>
+          <Button type="primary" @click="openAddModal"
+            >Add todo</Button
+          >
         </div>
       </Col>
       <!-- in case no items in the array -->
-      <Col :span="24" v-if="allTodos.length <= 0 || !allTodos">
+      <Col
+        :span="24"
+        v-if="allTodos.length <= 0 || !allTodos"
+      >
         <div>
           <TypographyTitle :level="5" class="text-center"
             >No Todos yet add one</TypographyTitle
@@ -26,6 +34,9 @@
       :title="item.title"
       :id="+item.id"
       :completed="item.completed"
+      :completeTodo="completeTodo"
+      :updateTodo="updateTodo"
+      :deleteTodo="deleteTodoById"
     ></todo-card>
 
     <!-- add todo modal -->
@@ -47,14 +58,15 @@
         <TypographyTitle type="danger" :level="5">
           {{ error.message }}
         </TypographyTitle>
-        <Button type="primary" @click="reload">Try again</Button>
+        <Button type="primary" @click="reload"
+          >Try again</Button
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
 import { mapActions, mapGetters } from 'vuex';
 import {
   Button,
@@ -90,7 +102,28 @@ export default {
     await this.getAllTodos();
   },
   methods: {
-    ...mapActions('todoStore', ['getAllTodos', 'createTodo']),
+    ...mapActions('todoStore', [
+      'getAllTodos',
+      'createTodo',
+      'updateTodoById',
+      'deleteTodoById',
+    ]),
+    async completeTodo(id) {
+      await this.updateTodoById({
+        id,
+        body: {
+          completed: true,
+        },
+      });
+    },
+    async updateTodo(id, title) {
+      await this.updateTodoById({
+        id,
+        body: {
+          title,
+        },
+      });
+    },
     openAddModal() {
       this.visible = true;
     },

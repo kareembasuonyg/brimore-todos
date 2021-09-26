@@ -5,17 +5,17 @@
         :title="title"
         class="card"
         :bodyStyle="{ height: 0, padding: 0 }"
-        :style="{ borderLeftColor: completed ? 'green' : 'red' }"
-        data-test="todo-card"
+        :style="{
+          borderLeftColor: completed ? 'green' : 'red',
+        }"
       >
         <template #extra>
           <!-- done button -->
           <Button
             type="primary"
             class="complete-button"
-            @click="completeTodo"
+            @click="completeTodo(id)"
             v-if="!completed"
-            data-test="complete-todo"
             >Done</Button
           >
           <!-- dropdown -->
@@ -30,31 +30,38 @@
   <Modal
     v-model:visible="deleteVisible"
     title="Are you sure?"
-    data-test="delete-todo"
   >
     <p>You are going to delete this Todo!</p>
-
     <template #footer>
-      <Button danger data-test="delete-todo" @click="deleteTodoById(id)"
-        >Delete</Button
-      >
+      <Button danger @click="deleteTodo(id)">Delete</Button>
     </template>
   </Modal>
   <!-- upddate modal -->
-  <Modal v-model:visible="updateVisible" title="Update todo">
+  <Modal
+    v-model:visible="updateVisible"
+    title="Update todo"
+  >
     <template #footer>
-      <Button data-test="update-todo" @click="updateTodo" type="primary" ghost
+      <Button @click="updateTodoWrap" type="primary" ghost
         >Save</Button
       >
     </template>
-    <Input v-model:value="updateValue" placeholder="Title" />
+    <Input
+      v-model:value="updateValue"
+      placeholder="Title"
+    />
   </Modal>
 </template>
 
 <script>
-/* eslint-disable */
-import { mapActions } from 'vuex';
-import { Button, Row, Col, Modal, Input, Card, Menu } from 'ant-design-vue';
+import {
+  Button,
+  Row,
+  Col,
+  Modal,
+  Input,
+  Card,
+} from 'ant-design-vue';
 import DropdownButton from './DropdownButton.vue';
 
 export default {
@@ -65,8 +72,6 @@ export default {
     Modal,
     Input,
     Card,
-    Menu,
-    MenuItem: Menu.Item,
     DropdownButton,
   },
   name: 'TodoCard',
@@ -74,6 +79,9 @@ export default {
     title: String,
     id: Number,
     completed: Boolean,
+    completeTodo: Function,
+    updateTodo: Function,
+    deleteTodo: Function,
   },
   data() {
     return {
@@ -95,31 +103,20 @@ export default {
     },
   },
   methods: {
-    ...mapActions('todoStore', ['deleteTodoById', 'updateTodoById']),
+    async updateTodoWrap() {
+      if (this.finalUpdatedValue) {
+        await this.updateTodo(
+          this.id,
+          this.finalUpdatedValue
+        );
+        this.updateVisible = false;
+      }
+    },
     openDeleteModal() {
       this.deleteVisible = true;
     },
     openUpdateModal() {
       this.updateVisible = true;
-    },
-    async updateTodo() {
-      if (this.finalUpdatedValue) {
-        await this.updateTodoById({
-          id: this.id,
-          body: {
-            title: this.finalUpdatedValue,
-          },
-        });
-        this.updateVisible = false;
-      }
-    },
-    async completeTodo() {
-      await this.updateTodoById({
-        id: this.id,
-        body: {
-          completed: true,
-        },
-      });
     },
   },
 };

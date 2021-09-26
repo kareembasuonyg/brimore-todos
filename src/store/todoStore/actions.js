@@ -15,6 +15,10 @@ export default {
   },
   async createTodo({ commit }, payload) {
     const response = await todoAPI.createTodo(payload);
-    commit('createTodo', { ...payload, id: response.id, completed: false });
+    commit('createTodo', {
+      ...payload,
+      id: response.id,
+      completed: false,
+    });
   },
 };

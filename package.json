@@ -11,6 +11,7 @@
     "storybook:serve": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
   "dependencies": {
+    "@storybook/preset-ant-design": "^0.0.2",
     "ant-design-vue": "^2.2.7",
     "axios": "^0.21.4",
     "core-js": "^3.6.5",

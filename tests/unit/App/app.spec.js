@@ -25,7 +25,7 @@ jest.mock('axios');
 describe('Testing rendering todos cards', () => {
   // =============================================
   test('Render correct length', async () => {
-    const wrapper = mount(App, {
+    mount(App, {
       global: {
         plugins: [vuexStore],
       },
@@ -41,7 +41,7 @@ describe('Testing rendering todos cards', () => {
       ],
     });
     await vuexStore.dispatch('todoStore/getAllTodos');
-    const todos = wrapper.findAll('[data-test="todo-card"]');
+    const todos = vuexStore.getters['todoStore/allTodos'];
     expect(todos).toHaveLength(1);
   });
   // =============================================
@@ -94,7 +94,9 @@ describe('Todo card buttons', () => {
     const todosLength = vuexStore.getters['todoStore/allTodos'].length;
     await wrapper.vm.addTodo();
     const UpdatedTodosLength = vuexStore.getters['todoStore/allTodos'];
-    expect(UpdatedTodosLength).toHaveLength(todosLength + 1);
+    expect(UpdatedTodosLength).toHaveLength(
+      todosLength + 1
+    );
   });
 });
 describe('Error Case', () => {

@@ -3,7 +3,9 @@ export default {
     state.todos = payload;
   },
   deleteTodo(state, id) {
-    state.todos = state.todos.filter((item) => item.id !== id);
+    state.todos = state.todos.filter(
+      (item) => item.id !== id
+    );
   },
   updateTodo(state, payload) {
     const todoItemIndex = state.todos.findIndex(

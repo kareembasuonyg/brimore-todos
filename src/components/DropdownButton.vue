@@ -4,16 +4,12 @@
       type="primary"
       class="ant-dropdown-link"
       @click.prevent
-      data-test="more-button"
       >More</Button
     >
     <template #overlay>
       <Menu>
         <MenuItem>
-          <Button
-            type="link"
-            @click="openUpdateModal"
-            data-test="update-todo-button"
+          <Button type="link" @click="openUpdateModal"
             >Update</Button
           >
         </MenuItem>
@@ -22,7 +18,6 @@
             type="link"
             danger
             @click="openDeleteModal"
-            data-test="delete-todo-button"
             >Delete</Button
           >
         </MenuItem>
@@ -32,7 +27,6 @@
 </template>
 
 <script>
-/*eslint-disable */
 import { Button, Dropdown, Menu } from 'ant-design-vue';
 
 export default {

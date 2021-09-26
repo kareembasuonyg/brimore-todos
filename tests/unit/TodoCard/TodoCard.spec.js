@@ -39,6 +39,9 @@ jest.mock('axios', () => ({
       userId: 1,
     },
   })),
+  put: jest.fn(() => ({})),
+  patch: jest.fn(() => ({})),
+  delete: jest.fn(() => ({})),
 }));
 describe('Todo card buttons', () => {
   // =============================================
@@ -47,8 +50,11 @@ describe('Todo card buttons', () => {
       global: {
         plugins: [vuexStore],
       },
+      props: {
+        deleteTodo: () => vuexStore.dispatch('todoStore/deleteTodoById'),
+      },
     });
-    await wrapper.vm.deleteTodoById(1);
+    await wrapper.props().deleteTodo(1);
     const todos = vuexStore.getters['todoStore/allTodos'];
     expect(todos).toHaveLength(0);
   });
@@ -63,13 +69,22 @@ describe('Todo card buttons', () => {
       },
       props: {
         id: 1,
+        updateTodo: (id, title) => vuexStore.dispatch(
+            'todoStore/updateTodoById',
+            {
+              id,
+              body: {
+                title,
+              },
+            }
+          ),
       },
     });
     await vuexStore.dispatch('todoStore/createTodo', {
       title: 'delectus aut autem',
     });
 
-    await wrapper.vm.updateTodo();
+    await wrapper.vm.updateTodoWrap();
     const todos = vuexStore.getters['todoStore/allTodos'];
     expect(todos[0].title).toBe('this is test update');
   });
@@ -90,7 +105,7 @@ describe('Todo card buttons', () => {
       title: 'delectus aut autem',
     });
 
-    await wrapper.vm.updateTodo();
+    await wrapper.vm.updateTodoWrap();
     const todos = vuexStore.getters['todoStore/allTodos'];
     expect(todos[0].title).toBe('delectus aut autem');
   });
@@ -100,16 +115,23 @@ describe('Todo card buttons', () => {
       global: {
         plugins: [vuexStore],
       },
-
       props: {
         id: 1,
+        completeTodo: (id) => vuexStore.dispatch(
+            'todoStore/updateTodoById',
+            {
+              id,
+              body: {
+                completed: true,
+              },
+            }
+          ),
       },
     });
     await vuexStore.dispatch('todoStore/createTodo', {
       title: 'delectus aut autem',
     });
-
-    await wrapper.vm.completeTodo();
+    await wrapper.props().completeTodo(1);
     const todos = vuexStore.getters['todoStore/allTodos'];
     expect(todos[0].completed).toBeTruthy();
   });

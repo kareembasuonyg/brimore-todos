@@ -36,7 +36,6 @@ export const http = async (method, props) => {
   } catch (err) {
     store.dispatch('setError', err);
     store.dispatch('setLoading', false);
-    console.log('🚀 ~ file: http.js ~ line 35 ~ http ~ err', err);
     throw err;
   }
 };
