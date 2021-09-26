@@ -1,3 +1,7 @@
+# Description
+
+Todo App is a task assigned to me and I try to build it with the instructions the company gives me below.
+
 # Todo App
 
 So here you are! We need your help with a small Todo App. We already setup a brand new project for you that already contains a very basic Vue.js setup.
